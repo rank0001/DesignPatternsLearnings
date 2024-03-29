@@ -1,19 +1,22 @@
 ﻿using MiddleLayer;
+using Unity;
 
 namespace FactoryCustomer
 {
     public static class Factory
     {
-        private static Dictionary<int, CustomerBase> custs = new Dictionary<int, CustomerBase>();
+        private static IUnityContainer? custs = null;
+        
         public static CustomerBase Create(int typeCust)
         {
-            if (custs.Count == 0)
+            if (custs==null)
             {
-                custs.Add(1, new Customer());
-                custs.Add(2, new Lead());
+                custs = new UnityContainer();
+                custs.RegisterType<CustomerBase,Customer>(typeCust.ToString());
+                custs.RegisterType<CustomerBase, Lead>(typeCust.ToString()); 
             }
-
-            return custs[typeCust];
+             
+            return custs.Resolve<CustomerBase>(typeCust.ToString());
         }
     }
 }
