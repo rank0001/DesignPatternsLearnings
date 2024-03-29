@@ -1,6 +1,5 @@
 ﻿using FactoryCustomer;
-using MiddleLayer;
-using System.Runtime.CompilerServices;
+using InterfaceCustomer;
 
 public class Program
 {
@@ -20,14 +19,14 @@ public class Program
         Console.Write("Enter address: ");
         var address = Console.ReadLine();
 
-        CustomerBase? cust = null;
+        ICustomer? cust = null;
         cust = Factory.Create(customerType);
 
         cust.CustomerName = customerName;
         cust.BillAmount = billAmount;
         cust.PhoneNumber = phoneNumber;
         cust.BillDate = billDate;
-        cust.Address =address;
+        cust.Address = address;
 
         cust.Validate();
     }

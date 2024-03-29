@@ -1,5 +1,8 @@
-﻿using MiddleLayer;
+﻿using InterfaceCustomer;
+using MiddleLayer;
 using Unity;
+using Unity.Injection;
+using ValidationStrategies;
 
 namespace FactoryCustomer
 {
@@ -7,16 +10,16 @@ namespace FactoryCustomer
     {
         private static IUnityContainer? custs = null;
         
-        public static CustomerBase Create(int typeCust)
+        public static ICustomer Create(int typeCust)
         {
             if (custs==null)
             {
                 custs = new UnityContainer();
-                custs.RegisterType<CustomerBase,Customer>(typeCust.ToString());
-                custs.RegisterType<CustomerBase, Lead>(typeCust.ToString()); 
+                custs.RegisterType<ICustomer,Customer>(typeCust.ToString(),new InjectionConstructor(new CustomerValidationAll()));
+                custs.RegisterType<ICustomer, Lead>(typeCust.ToString(), new InjectionConstructor(new LeadValidation())); 
             }
              
-            return custs.Resolve<CustomerBase>(typeCust.ToString());
+            return custs.Resolve<ICustomer>(typeCust.ToString());
         }
     }
 }

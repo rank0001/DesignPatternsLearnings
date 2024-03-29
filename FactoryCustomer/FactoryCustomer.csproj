@@ -9,8 +9,11 @@
 	<ItemGroup>
 		<PackageReference Include="Unity" Version="5.11.10" />
 	</ItemGroup>
+
 	<ItemGroup>
-		<ProjectReference Include="..\CustomerUI\MiddleLayer.csproj" />
+	  <ProjectReference Include="..\CustomerUI\MiddleLayer.csproj" />
+	  <ProjectReference Include="..\InterfaceCustomer\InterfaceCustomer.csproj" />
+	  <ProjectReference Include="..\ValidationStrategies\ValidationStrategies.csproj" />
 	</ItemGroup>
 
 </Project>

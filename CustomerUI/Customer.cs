@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using InterfaceCustomer;
 
 namespace MiddleLayer
 {
-    public class CustomerBase
+    public class CustomerBase : ICustomer
     {
+        private IValidation<ICustomer>? _validation = null;
+        public CustomerBase(IValidation<ICustomer> obj)
+        {
+            _validation = obj;
+        }
         public string? CustomerName { get; set; }
         public string? PhoneNumber { get; set; }
         public decimal BillAmount { get; set; }
@@ -15,53 +16,22 @@ namespace MiddleLayer
         public string? Address { get; set; }
         public virtual void Validate()
         {
-            throw new Exception("Not Implemented!");
+            _validation?.Validate(this);
         }
     }
     public class Customer : CustomerBase
     {
-        public override void Validate()
+        public Customer(IValidation<ICustomer> obj):base(obj)
         {
-            if (CustomerName?.Length == 0)
-            {
-                throw new Exception("Customer name is required");
-            }
-
-            if (PhoneNumber?.Length == 0)
-            {
-                throw new Exception("Phone Number is required");
-            }
-
-            if(Address?.Length == 0)
-            {
-                throw new Exception("Address is required");
-            }
-
-            if (BillAmount == 0)
-            {
-                throw new Exception("Bill Amount is required");
-            }
-
-            if (BillDate > DateTime.Now)
-            {
-                throw new Exception("Invalid Bill Date");
-            }
+                
         }
     }
 
     public class Lead : CustomerBase
     {
-        public override void Validate()
+        public Lead(IValidation<ICustomer> obj) : base(obj)
         {
-            if (CustomerName?.Length == 0)
-            {
-                throw new Exception("Lead name is required");
-            }
-
-            if (PhoneNumber?.Length == 0)
-            {
-                throw new Exception("Lead Phone Number is required");
-            }
+            
         }
     }
 
